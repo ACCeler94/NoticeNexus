@@ -8,4 +8,6 @@ const addSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   location: { type: String, required: true },
   seller: { type: Schema.Types.ObjectId, ref: 'User', required: true }
-})
+});
+
+module.exports = mongoose.model('Add', addSchema);
