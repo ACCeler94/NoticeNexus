@@ -4,8 +4,14 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 
+// import routes
+const addsRoutes = require('./routes/ads.routes');
+const usersRoutes = require('./routes/users.routes');
 
+app.use(express.json()); // required to handle form-data request
 app.use(cors()); // middleware to enable CORS requests
+app.use('/api', addsRoutes); // add adds routes
+app.use('/auth', usersRoutes); // add users routes
 
 
 // Serve static files from the React app
