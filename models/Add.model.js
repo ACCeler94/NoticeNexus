@@ -10,4 +10,7 @@ const addSchema = new mongoose.Schema({
   seller: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
+// create text index for title
+addSchema.index({ title: 'text' })
+
 module.exports = mongoose.model('Add', addSchema);

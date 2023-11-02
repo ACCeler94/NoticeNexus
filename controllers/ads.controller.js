@@ -31,6 +31,16 @@ exports.getById = async (req, res) => {
 }
 // [TODO] handle searchAdd get request
 
+exports.searchAdd = async (req, res) => {
+  try {
+    const filteredAds = await Add.find({ $text: { $search: req.body.searchPhrase } });
+    res.json(filteredAds);
+
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
+
 // post requests
 exports.addNew = async (req, res) => {
   try {
