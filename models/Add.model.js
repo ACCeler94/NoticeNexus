@@ -7,10 +7,8 @@ const addSchema = new mongoose.Schema({
   photo: { type: String, required: true },
   price: { type: Number, required: true },
   location: { type: String, required: true },
-  seller: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+  seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
-// create text index for title
-addSchema.index({ title: 'text' })
 
 module.exports = mongoose.model('Add', addSchema);
