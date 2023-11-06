@@ -1,7 +1,7 @@
 const User = require('../models/User.model');
 const bcrypt = require('bcryptjs');
 const getImageFileType = require('../utils/getImageFileType');
-
+const deleteImage = require('../utils/deleteImage');
 
 exports.register = async (req, res) => {
   try {
@@ -12,13 +12,15 @@ exports.register = async (req, res) => {
       // check if user with this login already exists
       const busyLogin = await User.findOne({ login });
       if (busyLogin) {
+        deleteImage(req.file.filename); // delete image if validation fails
         return res.status(409).send({ message: 'User with this login already exists.' })
       }
       const user = await User.create({ login, password: await bcrypt.hash(password, 10), phoneNumber, avatar: req.file.filename });
       res.status(201).json('Created user' + user.login)
 
     } else {
-      res.status(400).json({ message: 'Bad request' })
+      deleteImage(req.file.filename); // delete image if validation fails
+      res.status(400).json({ message: 'Bad request' });
     }
 
 
