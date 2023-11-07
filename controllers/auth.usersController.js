@@ -12,7 +12,6 @@ exports.register = async (req, res) => {
         fileType = await getImageFileType(req.file);
       } catch (error) {
         return res.status(500).json({ message: 'Error determining image file type.' });
-        // handle the error appropriately, e.g., return a response or throw an error
       }
     }
 

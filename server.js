@@ -48,6 +48,7 @@ app.use('/auth', authUserRoutes); // add users routes
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/public'))); // serve files from public folder
 
 /* app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
