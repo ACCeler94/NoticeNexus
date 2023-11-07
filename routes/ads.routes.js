@@ -9,12 +9,12 @@ router.route('/ads/:id').get(adsController.getById);
 router.route('/ads/search/:searchPhrase').get(adsController.searchAdd)
 
 // post requests
-router.route('/ads').post(adsController.addNew);
+router.post('/ads', adsController.newAdd);
 
 // put requests
-router.route('/ads/:id').put(adsController.updateAdd)
+router.put('/ads/:id', adsController.updateAdd)
 
 // delete requests
-router.route('/ads/:id').delete(adsController.deleteAdd);
+router.delete('/ads/:id', adsController.deleteAdd);
 
 module.exports = router;

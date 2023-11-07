@@ -41,7 +41,7 @@ exports.searchAdd = async (req, res) => {
 }
 
 // post requests
-exports.addNew = async (req, res) => {
+exports.newAdd = async (req, res) => {
   try {
     const { title, desc, date, photo, price, location, seller } = req.body;
 
