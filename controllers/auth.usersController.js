@@ -6,7 +6,7 @@ const deleteImage = require('../utils/deleteImage');
 exports.register = async (req, res) => {
   try {
     const { login, password, phoneNumber } = req.body;
-    const fileType = req.file ? getImageFileType(req.file) : 'unknown';
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
 
     if (login && typeof login === 'string' && password && typeof password === 'string' && phoneNumber && typeof phoneNumber === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
       // check if user with this login already exists
@@ -20,7 +20,7 @@ exports.register = async (req, res) => {
 
     } else {
       deleteImage(req.file.filename); // delete image if validation fails
-      res.status(400).json({ message: 'Bad request' });
+      res.status(400).json({ message: 'Bad request, validation failed' });
     }
 
 

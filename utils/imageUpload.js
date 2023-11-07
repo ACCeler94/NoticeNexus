@@ -1,6 +1,6 @@
 const multer = require('multer');
 
-const maxSize = 1048576 // file max size in bytes
+//const maxSize = 1048576 // file max size in bytes
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -12,6 +12,6 @@ const storage = multer.diskStorage({
   }
 });
 
-const imageUpload = multer({ storage, limits: { fileSize: maxSize } });
+const imageUpload = multer({ storage });
 
 module.exports = imageUpload;
