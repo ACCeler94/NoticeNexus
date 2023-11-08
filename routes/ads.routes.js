@@ -7,15 +7,15 @@ const imageUpload = require('../utils/imageUpload')
 // get requests
 router.route('/ads').get(adsController.getAll);
 router.route('/ads/:id').get(adsController.getById);
-router.route('/ads/search/:searchPhrase').get(adsController.searchAdd)
+router.route('/ads/search/:searchPhrase').get(adsController.searchAd)
 
 // post requests
-router.post('/ads', adsController.newAdd);
+router.post('/ads', adsController.newAd);
 
 // put requests
-router.put('/ads/:id', imageUpload.single('photo'), adsController.updateAdd)
+router.put('/ads/:id', imageUpload.single('photo'), adsController.updateAd)
 
 // delete requests
-router.delete('/ads/:id', adsController.deleteAdd);
+router.delete('/ads/:id', adsController.deleteAd);
 
 module.exports = router;

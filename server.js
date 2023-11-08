@@ -8,7 +8,7 @@ const mongoStore = require('connect-mongo');
 
 
 // import routes
-const addsRoutes = require('./routes/ads.routes');
+const adsRoutes = require('./routes/ads.routes');
 const authUserRoutes = require('./routes/auth.users.routes');
 
 
@@ -42,7 +42,7 @@ app.use(session({
     secure: NODE_ENV == 'production',
   },
 }))
-app.use('/api', addsRoutes); // add adds routes
+app.use('/api', adsRoutes); // add ads routes
 app.use('/auth', authUserRoutes); // add users routes
 
 

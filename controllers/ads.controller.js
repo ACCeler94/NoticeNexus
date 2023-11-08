@@ -1,4 +1,4 @@
-const Add = require('../models/Add.model');
+const Ad = require('../models/Ad.model');
 const User = require('../models/User.model');
 const getImageFileType = require('../utils/getImageFileType');
 const deleteImage = require('../utils/deleteImage');
@@ -7,12 +7,12 @@ const deleteImage = require('../utils/deleteImage');
 // get requests
 exports.getAll = async (req, res) => {
   try {
-    const add = await Add.find().populate({
+    const ad = await Ad.find().populate({
       path: 'seller',
       model: User
     })
 
-    res.json(add);
+    res.json(ad);
   } catch (error) {
     res.status(500).json({ message: error });
   }
@@ -20,10 +20,10 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const add = await Add.findById(req.params.id).populate({ path: 'seller', model: User });
+    const ad = await Ad.findById(req.params.id).populate({ path: 'seller', model: User });
 
-    if (add) {
-      res.json(add)
+    if (ad) {
+      res.json(ad)
     } else {
       res.status(404).json('No element with this id was found!')
     };
@@ -33,9 +33,9 @@ exports.getById = async (req, res) => {
   }
 }
 
-exports.searchAdd = async (req, res) => {
+exports.searchAd = async (req, res) => {
   try {
-    const filteredAds = await Add.find({ title: { $regex: req.params.searchPhrase, $options: 'i' } });
+    const filteredAds = await Ad.find({ title: { $regex: req.params.searchPhrase, $options: 'i' } });
     res.json(filteredAds);
 
   } catch (error) {
@@ -44,34 +44,34 @@ exports.searchAdd = async (req, res) => {
 }
 
 // post requests
-exports.newAdd = async (req, res) => {
+exports.newAd = async (req, res) => {
   try {
     const { title, desc, date, photo, price, location, seller } = req.body;
 
-    const newAdd = new Add({ title, desc, date, photo, price, location, seller });
-    await newAdd.save();
-    res.json({ message: 'OK', newAdd })
+    const newAd = new Ad({ title, desc, date, photo, price, location, seller });
+    await newAd.save();
+    res.json({ message: 'OK', newAd })
   } catch (error) {
     res.status(500).json({ message: error });
   }
 }
 
 // put requests
-exports.updateAdd = async (req, res) => {
+exports.updateAd = async (req, res) => {
   try {
     const { title, desc, date, price, location } = req.body;
-    const addToUpdate = await Add.findById(req.params.id);
+    const adToUpdate = await Ad.findById(req.params.id);
     let photo;
 
-    if (addToUpdate) {
-      if (req.file) { // check if add update includes new image
+    if (adToUpdate) {
+      if (req.file) { // check if ad update includes new image
         try {
           const fileType = await getImageFileType(req.file);
           if (['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) { // check image format
-            photo = req.file.filename; // add new image to the add
-            deleteImage(addToUpdate.photo); // delete old image
+            photo = req.file.filename; // add new image to the ad
+            deleteImage(adToUpdate.photo); // delete old image
           } else {
-            photo = addToUpdate.photo; // assign old image to photo
+            photo = adToUpdate.photo; // assign old image to photo
           }
         } catch (error) {
           return res.status(500).json({ message: 'Error determining image file type.' });
@@ -79,17 +79,17 @@ exports.updateAdd = async (req, res) => {
       }
 
       // Update fields if they exist in the request
-      if (title) addToUpdate.title = title;
-      if (desc) addToUpdate.desc = desc;
-      if (date) addToUpdate.date = date;
-      if (price) addToUpdate.price = price;
-      if (photo) addToUpdate.photo = photo;
-      if (location) addToUpdate.location = location;
+      if (title) adToUpdate.title = title;
+      if (desc) adToUpdate.desc = desc;
+      if (date) adToUpdate.date = date;
+      if (price) adToUpdate.price = price;
+      if (photo) adToUpdate.photo = photo;
+      if (location) adToUpdate.location = location;
 
-      await addToUpdate.save();
+      await adToUpdate.save();
       res.json({ message: 'OK' })
     } else {
-      res.status(404).json('No Add with this id was found!')
+      res.status(404).json('No Ad with this id was found!')
     }
 
   } catch (error) {
@@ -99,15 +99,15 @@ exports.updateAdd = async (req, res) => {
 
 
 // delete requests
-exports.deleteAdd = async (req, res) => {
+exports.deleteAd = async (req, res) => {
   try {
-    const addToDelete = await Add.findById(req.params.id);
+    const adToDelete = await Ad.findById(req.params.id);
 
-    if (addToDelete) {
-      await Add.deleteOne({ _id: req.params.id });
+    if (adToDelete) {
+      await Ad.deleteOne({ _id: req.params.id });
       res.json({ message: 'OK' })
     } else {
-      res.status(404).json('No Add with this id was found!')
+      res.status(404).json('No Ad with this id was found!')
     }
 
   } catch (error) {
