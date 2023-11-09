@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
         return res.status(409).send({ message: 'User with this login already exists.' })
       }
       const user = await User.create({ login, password: await bcrypt.hash(password, 10), phoneNumber, avatar: req.file.filename });
-      res.status(201).json('Created user' + user.login)
+      res.status(201).json('Created user' + user.login + ' id =' + user.id)
 
     } else {
       deleteImage(req.file.filename); // delete image if validation fails

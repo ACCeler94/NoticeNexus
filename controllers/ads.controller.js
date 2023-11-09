@@ -87,7 +87,7 @@ exports.updateAd = async (req, res) => {
       if (location) adToUpdate.location = location;
 
       await adToUpdate.save();
-      res.json({ message: 'OK' })
+      res.json({ message: 'OK', adToUpdate })
     } else {
       res.status(404).json('No Ad with this id was found!')
     }
