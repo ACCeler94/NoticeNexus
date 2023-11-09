@@ -10,7 +10,7 @@ router.route('/ads/:id').get(adsController.getById);
 router.route('/ads/search/:searchPhrase').get(adsController.searchAd)
 
 // post requests
-router.post('/ads', adsController.newAd);
+router.post('/ads', imageUpload.single('photo'), adsController.newAd);
 
 // put requests
 router.put('/ads/:id', imageUpload.single('photo'), adsController.updateAd)
