@@ -72,7 +72,7 @@ export const adsSlice = createSlice({
     });
     builder.addCase(fetchAllAds.fulfilled, (state, action) => {
       state.status = 'success';
-      state.ads.push(...action.payload);
+      state.ads = action.payload;
     });
     builder.addCase(fetchAllAds.rejected, (state, action) => {
       state.status = 'failed';

@@ -15,7 +15,7 @@ const Home = () => {
   }, [dispatch])
 
   // handle loading status
-  if (status === 'pending') {
+  if (status === 'pending' && !ads) {
     return (
       <section className='ads-section'>
         <FadeLoader
@@ -39,7 +39,9 @@ const Home = () => {
     <section className='ads-section'>
       <ul className='ads-list'>
         {ads.map(ad => (
-          <AdCard key={ad.id} adData={ad} />
+          <li key={ad._id}>
+            <AdCard adData={ad} />
+          </li>
         ))}
       </ul>
     </section>

@@ -9,7 +9,8 @@ exports.getAll = async (req, res) => {
   try {
     const ad = await Ad.find().populate({
       path: 'seller',
-      model: User
+      model: User,
+      select: '-password' // exclude 'password'
     })
 
     res.json(ad);
@@ -45,12 +46,25 @@ exports.searchAd = async (req, res) => {
 
 // post requests
 exports.newAd = async (req, res) => {
-  try {
-    const { title, desc, date, photo, price, location, seller } = req.body;
+  const { title, desc, date, price, location, seller } = req.body;
+  let fileType = 'unknown';
 
-    const newAd = new Ad({ title, desc, date, photo, price, location, seller });
-    await newAd.save();
-    res.json({ message: 'OK', newAd })
+  try {
+    if (req.file) { // check for photo and it's type
+      try {
+        fileType = await getImageFileType(req.file);
+      } catch (error) {
+        return res.status(500).json({ message: 'Error determining image file type.' });
+      }
+    }
+    if (title && typeof title === 'string' && desc && typeof desc === 'string' && date && typeof date === 'string' && price && typeof price === 'number' && location && typeof location === 'string' && seller && typeof seller === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
+      const newAd = new Ad({ title, desc, date, photo: req.file.filename, price, location, seller });
+      await newAd.save();
+      res.json({ message: 'OK', newAd })
+    } else {
+      deleteImage(req.file.filename); // delete image if validation fails
+      res.status(400).json({ message: 'Bad request, validation failed' });
+    }
   } catch (error) {
     res.status(500).json({ message: error });
   }
