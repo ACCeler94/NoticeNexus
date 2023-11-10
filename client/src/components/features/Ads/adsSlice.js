@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import adsAPI from '../../../../API/adsAPI';
+import adsAPI from '../../../API/adsAPI';
 
 // initial state
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 // thunks
-const fetchAllAds = createAsyncThunk(
+export const fetchAllAds = createAsyncThunk(
   'ads/fetchAllAds',
   async () => {
     const response = await adsAPI.fetchAll();
@@ -17,7 +17,7 @@ const fetchAllAds = createAsyncThunk(
   }
 );
 
-const fetchById = createAsyncThunk(
+export const fetchById = createAsyncThunk(
   'ads/fetchById',
   async (id) => {
     const response = await adsAPI.fetchById(id);
@@ -25,7 +25,7 @@ const fetchById = createAsyncThunk(
   }
 );
 
-const fetchBySearchParams = createAsyncThunk(
+export const fetchBySearchParams = createAsyncThunk(
   'ads/fetchBySearchParams',
   async (searchPhrase) => {
     const response = await adsAPI.fetchBySearch(searchPhrase);
@@ -33,7 +33,7 @@ const fetchBySearchParams = createAsyncThunk(
   }
 );
 
-const addNewAd = createAsyncThunk(
+export const addNewAd = createAsyncThunk(
   'ads/addNewAd',
   async (adData) => {
     const response = await adsAPI.addNewAd(adData);
@@ -41,7 +41,7 @@ const addNewAd = createAsyncThunk(
   }
 );
 
-const updateAd = createAsyncThunk(
+export const updateAd = createAsyncThunk(
   'ads/updateAd',
   async ({ id, newAdData }) => {
     const response = await adsAPI.updateAd(id, newAdData);
@@ -49,7 +49,7 @@ const updateAd = createAsyncThunk(
   }
 );
 
-const deleteById = createAsyncThunk(
+export const deleteById = createAsyncThunk(
   'ads/deleteById',
   async (id) => {
     await adsAPI.deleteById(id);
