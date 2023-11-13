@@ -57,7 +57,7 @@ exports.newAd = async (req, res) => {
         return res.status(500).json({ message: 'Error determining image file type.' });
       }
     }
-    if (title && typeof title === 'string' && desc && typeof desc === 'string' && date && typeof date === 'string' && price && typeof price === 'number' && location && typeof location === 'string' && seller && typeof seller === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
+    if (title && typeof title === 'string' && desc && typeof desc === 'string' && date && typeof date === 'string' && price && typeof price === 'string' && location && typeof location === 'string' && seller && typeof seller === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
       const newAd = new Ad({ title, desc, date, photo: req.file.filename, price, location, seller });
       await newAd.save();
       res.json({ message: 'OK', newAd })

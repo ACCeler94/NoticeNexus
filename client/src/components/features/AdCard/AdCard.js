@@ -1,18 +1,35 @@
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
 import { IMAGES_URL } from '../../../API/config';
-import styles from './AdCard.module.scss'
+import { useNavigate } from 'react-router-dom';
 
 
-const AdCard = adData => {
 
-  console.log(adData)
+export default function AdCard(adData) {
+
+  const navigate = useNavigate();
+
   return (
-    < div className={styles.adCard} >
-      <h3 className={styles.adTitle}>{adData.title}</h3>
-      <div className={styles.imageContainer}>
-        <img src={`${IMAGES_URL}/${adData.photo}`} alt='Ad miniature' />
-      </div>
-    </div >
-  )
+    <Card sx={{ maxWidth: 500, backgroundColor: "#1976D2" }}>
+      <CardActionArea onClick={() => navigate(`ads/${adData._id}`)}>
+        <CardContent sx={{ height: '70px' }}>
+          <Typography gutterBottom variant="h5" component="div" color='#fff' sx={{ wordWrap: 'break-word', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+            {adData.title}
+            <br />
+            <span style={{ fontSize: '0.9rem' }}>Location: {adData.location}</span>
+          </Typography>
+        </CardContent>
+        <CardMedia
+          component="img"
+          height="300"
+          image={`${IMAGES_URL}/${adData.photo}`}
+          alt='Ad miniature'
+        />
+      </CardActionArea>
+    </Card >
+  );
 }
-
-export default AdCard;

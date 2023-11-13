@@ -2,7 +2,9 @@ import { useEffect } from 'react';
 import { fetchAllAds } from '../../features/Ads/adsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { FadeLoader } from 'react-spinners'
+import styles from './Home.module.scss';
 import AdCard from '../../features/AdCard/AdCard';
+
 
 const Home = () => {
   const ads = useSelector(state => state.ads.ads);
@@ -17,7 +19,7 @@ const Home = () => {
   // handle loading status
   if (status === 'pending' && !ads) {
     return (
-      <section className='ads-section'>
+      <section className={styles.adsSection}>
         <FadeLoader
           color="#1976d2"
           height={15}
@@ -28,7 +30,7 @@ const Home = () => {
 
   // handle error status
   if (error) {
-    <section className='ads-section'>
+    <section className={styles.adsSection}>
       <h2 className='error-msg'>Error while loading ads!</h2>
       <button onClick={() => dispatch(fetchAllAds())}>Try Again</button>
     </section>
@@ -36,11 +38,11 @@ const Home = () => {
 
 
   return (
-    <section className='ads-section'>
-      <ul className='ads-list'>
+    <section className={styles.adsSection}>
+      <ul className={styles.adsList}>
         {ads.map(ad => (
           <li key={ad._id}>
-            <AdCard adData={ad} />
+            <AdCard {...ad} />
           </li>
         ))}
       </ul>
