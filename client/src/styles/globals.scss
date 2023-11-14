@@ -1,5 +1,25 @@
 @import './variables.scss';
 
 body {
-  background-color: $body-background-color;
+  background-color: $light-background-color;
+
+
+  .error-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5%;
+    font-family: $primary-font;
+
+    button {
+      border-radius: $border-radius;
+      background-color: $primary-color;
+      box-shadow: none;
+      color: $secondary-color;
+      border: none;
+      padding: 15px 30px;
+      cursor: pointer;
+    }
+  }
 }

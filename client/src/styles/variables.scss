@@ -1,8 +1,17 @@
 // colors
 $primary-color:#1976d2;
 $secondary-color: #fff;
-$body-background-color: #F5F9FF;
+$light-background-color: #F5F9FF;
+$dark-font: #36454F;
 
 // typography
 $primary-font: "Roboto","Helvetica","Arial",sans-serif;
 $title-font-size: 26px;
+$title-font-size: 1.5rem;
+$title-line-height: 1.334;
+$font-weight-light: 400;
+$font-weight-medium: 500;
+
+
+// misc
+$border-radius: 4px;

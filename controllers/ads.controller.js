@@ -21,12 +21,12 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const ad = await Ad.findById(req.params.id).populate({ path: 'seller', model: User });
+    const ad = await Ad.findById(req.params.id).populate({ path: 'seller', model: User, select: '-password' });
 
     if (ad) {
       res.json(ad)
     } else {
-      res.status(404).json('No element with this id was found!')
+      res.status(404).json({ message: 'No element with this id was found!' })
     };
 
   } catch (error) {
