@@ -1,10 +1,22 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import usersAPI from '../../../../API/usersAPI';
+import { createSlice } from '@reduxjs/toolkit';
+
 
 // initial state
 const initialState = {
   user: null,
-  status: 'idle',
-  error: null
 }
 
+
+// reducer
+export const usersSlice = createSlice({
+  name: 'users',
+  initialState,
+  reducers: {
+    logIn(state, action) {
+      state.user = action.payload;
+    }
+  }
+});
+
+export const { logIn } = usersSlice.actions;
+export default usersSlice.reducer;
