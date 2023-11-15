@@ -7,6 +7,7 @@ import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../features/Users/usersSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
@@ -15,6 +16,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState(null); // null, loading, success, serverError, clientError
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -32,7 +34,10 @@ const Login = () => {
       .then(res => {
         if (res.status === 200) {
           setStatus('success');
-          dispatch(logIn({ login }))
+          dispatch(logIn({ login }));
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);
         } else if (res.status === 400) {
           setStatus('clientError');
         } else {
