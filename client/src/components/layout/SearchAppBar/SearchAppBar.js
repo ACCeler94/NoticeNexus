@@ -10,6 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 import { Menu, MenuItem } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,6 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchAppBar() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const user = useSelector(state => state.users.user);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -85,8 +87,9 @@ export default function SearchAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>New Ad</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            {user && <MenuItem onClick={handleClose}>New Ad</MenuItem>}
+            {user && <MenuItem onClick={handleClose}><Link to='/logout' >Logout</Link></MenuItem>}
+            {!user && <MenuItem onClick={handleClose}><Link to='/login'>Log In</Link></MenuItem>}
           </Menu>
           <Typography
             variant="h6"
