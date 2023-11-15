@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { fetchAllAds } from './adsSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { FadeLoader } from 'react-spinners'
 import styles from './Ads.module.scss';
 import AdCard from '../AdCard/AdCard';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const Ads = () => {
@@ -19,11 +20,8 @@ const Ads = () => {
   // handle loading status
   if (status === 'pending' && !ads) {
     return (
-      <section className={styles.adsSection}>
-        <FadeLoader
-          color="#1976d2"
-          height={15}
-        />
+      <section className='spinner'>
+        <CircularProgress />
       </section>
     )
   };
@@ -33,7 +31,7 @@ const Ads = () => {
     return (
       <section className='error-wrapper'>
         <h2 className='error-msg'>Error while loading ads!</h2>
-        <button onClick={() => dispatch(fetchAllAds())}>Try Again</button>
+        <Button variant="contained" onClick={() => dispatch(fetchAllAds())}>Try Again</Button>
       </section>
     )
   }

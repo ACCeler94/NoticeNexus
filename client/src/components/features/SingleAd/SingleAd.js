@@ -3,8 +3,9 @@ import styles from './SingleAd.module.scss';
 import { useEffect, useState } from 'react';
 import { fetchById } from '../Ads/adsSlice';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FadeLoader } from 'react-spinners';
+import CircularProgress from '@mui/material/CircularProgress';
 import { IMAGES_URL } from '../../../API/config';
+import Button from '@mui/material/Button';
 
 
 const SingleAd = () => {
@@ -34,7 +35,7 @@ const SingleAd = () => {
     return (
       <section className='error-wrapper'>
         <h2 className='error-msg'>{error}</h2>
-        <button onClick={() => navigate(-1)}>Go back</button>
+        <Button variant="contained" onClick={() => navigate(-1)}>Go back</Button>
       </section>
     )
   }
@@ -68,11 +69,8 @@ const SingleAd = () => {
   // handle loading status
   if (status === 'pending' || !currentAd._id || !currentAd.seller) {
     return (
-      <section className={styles.singleAd}>
-        <FadeLoader
-          color="#1976d2"
-          height={15}
-        />
+      <section className='spinner'>
+        <CircularProgress />
       </section>
     )
   };
