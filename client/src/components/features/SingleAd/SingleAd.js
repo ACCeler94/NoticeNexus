@@ -14,6 +14,7 @@ const SingleAd = () => {
   const navigate = useNavigate();
   const status = useSelector(state => state.ads.status);
   const error = useSelector(state => state.ads.error);
+  const user = useSelector(state => state.users.user);
 
   const [currentAd, setCurrentAd] = useState({});
   let { id } = useParams();
@@ -23,7 +24,6 @@ const SingleAd = () => {
   useEffect(() => {
     dispatch(fetchById(id))
       .then(adData => {
-        console.log(adData)
         setCurrentAd(adData.payload);
       })
   }, [dispatch, id])
@@ -44,6 +44,21 @@ const SingleAd = () => {
   if (currentAd && currentAd.seller) {
     return (
       <section className={styles.singleAd}>
+
+        {user && user.login === currentAd.seller.login &&
+          < div className={styles.adButtonsWrapper}>
+            <Button variant="contained" onClick={() => navigate('edit')} >Edit</Button>
+            <Button variant="contained" onClick={() => navigate('delete')} sx={{
+              backgroundColor: 'red',
+              borderColor: 'red',
+              '&:hover': {
+                backgroundColor: 'rgb(200, 0, 0)',
+              },
+              margin: '0 5px'
+            }} >Delete</Button>
+          </div>}
+
+
         <div className={styles.singleAdWrapper}>
           <div className={styles.adHeader}>
             <h2>{currentAd.title}</h2>

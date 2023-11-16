@@ -73,11 +73,19 @@ exports.newAd = async (req, res) => {
 // put requests
 exports.updateAd = async (req, res) => {
   try {
-    const { title, desc, date, price, location } = req.body;
+    const { title, desc, date, price, location, seller } = req.body;
     const adToUpdate = await Ad.findById(req.params.id);
     let photo;
 
+
+
     if (adToUpdate) {
+
+      // server check if user is the author
+      if (seller !== adToUpdate.seller) {
+        return res.status(401).json({ message: 'User not authorized!' })
+      }
+
       if (req.file) { // check if ad update includes new image
         try {
           const fileType = await getImageFileType(req.file);
@@ -118,6 +126,12 @@ exports.deleteAd = async (req, res) => {
     const adToDelete = await Ad.findById(req.params.id);
 
     if (adToDelete) {
+
+      // server check if user is the author
+      if (seller !== adToDelete.seller) {
+        return res.status(401).json({ message: 'User not authorized!' })
+      }
+
       await Ad.deleteOne({ _id: req.params.id });
       res.json({ message: 'OK' })
     } else {

@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const adsController = require('../controllers/ads.controller.js');
-const imageUpload = require('../utils/imageUpload')
+const imageUpload = require('../utils/imageUpload');
+const authMiddleware = require('../utils/auth.middleware');
 
 
 // get requests
@@ -10,12 +11,12 @@ router.route('/ads/:id').get(adsController.getById);
 router.route('/ads/search/:searchPhrase').get(adsController.searchAd)
 
 // post requests
-router.post('/ads', imageUpload.single('photo'), adsController.newAd);
+router.post('/ads', authMiddleware, imageUpload.single('photo'), adsController.newAd);
 
 // put requests
-router.put('/ads/:id', imageUpload.single('photo'), adsController.updateAd)
+router.put('/ads/:id', authMiddleware, imageUpload.single('photo'), adsController.updateAd)
 
 // delete requests
-router.delete('/ads/:id', adsController.deleteAd);
+router.delete('/ads/:id', authMiddleware, adsController.deleteAd);
 
 module.exports = router;

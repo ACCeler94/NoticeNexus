@@ -98,7 +98,7 @@ export const adsSlice = createSlice({
       state.error = null; // Reset error status in case of previous failure
     });
     builder.addCase(fetchBySearchParams.fulfilled, (state) => {
-      state.status = 'success'; // Data is not handled as single ads are not added to the state
+      state.status = 'success';
     });
     builder.addCase(fetchBySearchParams.rejected, (state, action) => {
       state.status = 'failed';
