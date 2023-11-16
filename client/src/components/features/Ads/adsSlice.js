@@ -5,7 +5,8 @@ import adsAPI from '../../../API/adsAPI';
 const initialState = {
   ads: [],
   status: 'idle',
-  error: null
+  error: null,
+  currentAd: {}
 };
 
 // thunks
@@ -35,8 +36,8 @@ export const fetchBySearchParams = createAsyncThunk(
 
 export const addNewAd = createAsyncThunk(
   'ads/addNewAd',
-  async (adData) => {
-    const response = await adsAPI.addNewAd(adData);
+  async (newAdData) => {
+    const response = await adsAPI.addNewAd(newAdData);
     return response.data;
   }
 );
@@ -45,6 +46,9 @@ export const updateAd = createAsyncThunk(
   'ads/updateAd',
   async ({ id, newAdData }) => {
     const response = await adsAPI.updateAd(id, newAdData);
+    if (response.status === 401) {
+      throw new Error('User not authorized!');
+    }
     return response.data;
   }
 );
@@ -52,10 +56,15 @@ export const updateAd = createAsyncThunk(
 export const deleteById = createAsyncThunk(
   'ads/deleteById',
   async (id) => {
-    await adsAPI.deleteById(id);
+    const response = await adsAPI.deleteById(id);
+    if (response.status === 401) {
+      throw new Error('User not authorized');
+    }
     return id;
   }
 );
+
+
 
 
 // reducer
@@ -84,8 +93,9 @@ export const adsSlice = createSlice({
       state.status = 'pending';
       state.error = null; // Reset error status in case of previous failure
     });
-    builder.addCase(fetchById.fulfilled, (state) => {
-      state.status = 'success'; // Data is not handled as single ads are not added to the state
+    builder.addCase(fetchById.fulfilled, (state, action) => {
+      state.status = 'success';
+      state.currentAd = action.payload;
     });
     builder.addCase(fetchById.rejected, (state, action) => {
       state.status = 'failed';

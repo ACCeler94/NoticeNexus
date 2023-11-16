@@ -16,16 +16,13 @@ const SingleAd = () => {
   const error = useSelector(state => state.ads.error);
   const user = useSelector(state => state.users.user);
 
-  const [currentAd, setCurrentAd] = useState({});
+  const currentAd = useSelector(state => state.ads.currentAd)
   let { id } = useParams();
 
 
 
   useEffect(() => {
-    dispatch(fetchById(id))
-      .then(adData => {
-        setCurrentAd(adData.payload);
-      })
+    dispatch(fetchById(id));
   }, [dispatch, id])
 
 
