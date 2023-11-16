@@ -17,6 +17,6 @@ router.post('/ads', authMiddleware, imageUpload.single('photo'), adsController.n
 router.put('/ads/:id', authMiddleware, imageUpload.single('photo'), adsController.updateAd)
 
 // delete requests
-router.delete('/ads/:id', authMiddleware, adsController.deleteAd);
+router.delete('/ads/:id', adsController.deleteAd);
 
 module.exports = router;

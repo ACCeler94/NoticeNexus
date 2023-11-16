@@ -16,12 +16,7 @@ const Delete = () => {
 
   useEffect(() => {
     dispatch(deleteById(id))
-      .then(() => {
-        setTimeout(() => {
-          navigate('/');
-        }, 1000);
-      });
-  }, [dispatch, id, navigate]);
+  }, [dispatch, id]);
 
 
   // handle error status
