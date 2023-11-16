@@ -32,13 +32,17 @@ const Login = () => {
     setStatus('loading')
     fetch(`${AUTH_URL}/login`, options)
       .then(res => {
-        if (res.status === 200) {
+        const status = res.status;
+        return res.json().then(data => ({ status, data }));
+      })
+      .then(({ status, data }) => {
+        if (status === 200) {
           setStatus('success');
-          dispatch(logIn({ login }));
+          dispatch(logIn({ login, id: data.id }));
           setTimeout(() => {
             navigate('/');
           }, 1000);
-        } else if (res.status === 400) {
+        } else if (status === 400) {
           setStatus('clientError');
         } else {
           setStatus('serverError');
