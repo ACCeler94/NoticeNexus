@@ -36,10 +36,10 @@ if (NODE_ENV !== 'production') {
 app.use(session({
   secret: 'xyz123',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: mongoStore.create({ mongoUrl: dbURI }),
   cookie: {
-    secure: NODE_ENV == 'production',
+    secure: false,
   },
 }))
 app.use('/api', adsRoutes); // add ads routes

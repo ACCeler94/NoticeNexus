@@ -27,8 +27,7 @@ function App() {
       .then((res) => {
         console.log('logged in?', res);
       });
-
-  })
+  }, [])
 
   return (
     <>

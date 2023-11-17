@@ -61,6 +61,7 @@ exports.login = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
+  console.log(req.session)
   if (req.session.user) {
     res.send(req.session.user.login);
   } else {
