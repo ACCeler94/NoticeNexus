@@ -2,13 +2,28 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  grid-gap:10px;
+  grid-gap:35px;
   height: calc(100vh - 10px);
   padding: 0;
 
+
   li {
     list-style-type: none;
-    padding: 5%;
+    padding: 5% 2.5%;
     height: 100%;
+    min-width: 95%
   }
 }
+
+
+@media only screen and (max-width: 950px) {
+ .adsList {
+  grid-template-columns: 1fr 1fr;
+ }
+}
+
+@media only screen and (max-width: 650px) {
+  .adsList {
+   grid-template-columns: 1fr;
+  }
+ }

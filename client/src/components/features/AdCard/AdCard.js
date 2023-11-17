@@ -14,7 +14,7 @@ export default function AdCard(adData) {
   const navigate = useNavigate();
 
   return (
-    <Card sx={{ maxWidth: 500, backgroundColor: "#1976D2" }}>
+    <Card sx={{ maxWidth: 500, backgroundColor: "#1976D2", margin: '0 auto' }}>
       <CardActionArea onClick={() => navigate(`ads/${adData._id}`)}>
         <CardContent sx={{ height: '70px' }}>
           <Typography gutterBottom variant="h5" component="div" color='#fff' sx={{ wordWrap: 'break-word', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
