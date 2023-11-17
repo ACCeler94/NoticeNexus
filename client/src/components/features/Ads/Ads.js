@@ -53,7 +53,7 @@ const Ads = () => {
   }
 
   // display filtered ads
-  if (filteredAds && searchPhrase) {
+  if (filteredAds.length > 0 && searchPhrase) {
     return (
       <section className={styles.adsSection}>
         <ul className={styles.adsList}>
@@ -72,7 +72,7 @@ const Ads = () => {
       <ul className={styles.adsList}>
         {ads.map(ad => (
           <li key={ad._id}>
-            <AdCard {...ad} />
+            <AdCard {...ad} sx={{ margin: '0 auto' }} />
           </li>
         ))}
       </ul>

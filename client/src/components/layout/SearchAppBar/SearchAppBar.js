@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { Menu, MenuItem } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchPhrase } from '../../features/Ads/adsSlice';
+import styles from './SearchAppBar.module.scss'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -95,6 +96,7 @@ export default function SearchAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
+            <Link to="/" className={styles.mobileHomeLink}><MenuItem onClick={handleClose}>Home</MenuItem></Link>
             {user && <Link to='/ads/new'><MenuItem onClick={handleClose}>New Ad</MenuItem></Link>}
             {user && <Link to='/logout' ><MenuItem onClick={handleClose}>Logout</MenuItem></Link>}
             {!user && <Link to='/login'><MenuItem onClick={handleClose}>Log In</MenuItem></Link>}
