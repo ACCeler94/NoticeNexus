@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { fetchAllAds, fetchBySearchParams } from './adsSlice';
+import { fetchAllAds, fetchBySearchParams, setSearchPhrase } from './adsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './Ads.module.scss';
 import AdCard from '../AdCard/AdCard';
@@ -15,6 +15,7 @@ const Ads = () => {
   const searchPhrase = useSelector(state => state.ads.searchPhrase)
   const dispatch = useDispatch();
 
+  //[TODO - in the future change searchParams to be saved in the url and properly reset]
   useEffect(() => {
     dispatch(fetchAllAds())
   }, [dispatch])
@@ -25,6 +26,12 @@ const Ads = () => {
     }
   }, [searchPhrase, dispatch])
 
+  // Reset searchPhrase and component unmounts
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchPhrase(''));
+    };
+  }, [dispatch]);
 
   // handle loading status
   if (status === 'pending' && !ads) {
