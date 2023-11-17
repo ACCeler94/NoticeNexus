@@ -76,9 +76,6 @@ exports.updateAd = async (req, res) => {
     const { title, desc, date, price, location, seller } = req.body;
     const adToUpdate = await Ad.findById(req.params.id);
     let photo;
-
-
-
     if (adToUpdate) {
 
       // server check if user is the author

@@ -10,7 +10,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 import { Menu, MenuItem } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchPhrase } from '../../features/Ads/adsSlice';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,10 +59,17 @@ export default function SearchAppBar() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const user = useSelector(state => state.users.user);
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const searchHandler = (e) => {
+    if (e.target.value.length >= 3 || e.target.value === '') { // change search phrase only if it's at least 3 chars long or deleted
+      dispatch(setSearchPhrase(e.target.value))
+    }
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -87,9 +95,9 @@ export default function SearchAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            {user && <MenuItem onClick={handleClose}><Link to='/ads/new'>New Ad</Link></MenuItem>}
-            {user && <MenuItem onClick={handleClose}><Link to='/logout' >Logout</Link></MenuItem>}
-            {!user && <MenuItem onClick={handleClose}><Link to='/login'>Log In</Link></MenuItem>}
+            {user && <Link to='/ads/new'><MenuItem onClick={handleClose}>New Ad</MenuItem></Link>}
+            {user && <Link to='/logout' ><MenuItem onClick={handleClose}>Logout</MenuItem></Link>}
+            {!user && <Link to='/login'><MenuItem onClick={handleClose}>Log In</MenuItem></Link>}
           </Menu>
           <Typography
             variant="h6"
@@ -108,6 +116,7 @@ export default function SearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={searchHandler}
             />
           </Search>
         </Toolbar>

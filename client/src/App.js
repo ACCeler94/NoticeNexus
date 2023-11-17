@@ -25,9 +25,11 @@ function App() {
     }
     fetch(`${AUTH_URL}/user`, options)
       .then((res) => {
-        console.log('logged in?', res);
+        console.log(res)
       });
   }, [])
+
+
 
   return (
     <>

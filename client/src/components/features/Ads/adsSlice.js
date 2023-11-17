@@ -6,7 +6,10 @@ const initialState = {
   ads: [],
   status: 'idle',
   error: null,
-  currentAd: {}
+  currentAd: {},
+  adFormStatus: 'idle',
+  filteredAds: [],
+  searchPhrase: ''
 };
 
 // thunks
@@ -71,7 +74,14 @@ export const deleteById = createAsyncThunk(
 export const adsSlice = createSlice({
   name: 'ads',
   initialState,
-  reducers: {},
+  reducers: {
+    resetNewAdStatus: (state) => {
+      state.adFormStatus = 'idle';
+    },
+    setSearchPhrase: (state, action) => {
+      state.searchPhrase = action.payload;
+    }
+  },
   extraReducers: (builder) => {
 
     // fetchAllAds
@@ -107,8 +117,9 @@ export const adsSlice = createSlice({
       state.status = 'pending';
       state.error = null; // Reset error status in case of previous failure
     });
-    builder.addCase(fetchBySearchParams.fulfilled, (state) => {
+    builder.addCase(fetchBySearchParams.fulfilled, (state, action) => {
       state.status = 'success';
+      state.filteredAds = action.payload;
     });
     builder.addCase(fetchBySearchParams.rejected, (state, action) => {
       state.status = 'failed';
@@ -117,25 +128,25 @@ export const adsSlice = createSlice({
 
     // addNewAd
     builder.addCase(addNewAd.pending, (state) => {
-      state.status = 'pending';
+      state.adFormStatus = 'pending';
       state.error = null; // Reset error status in case of previous failure
     });
     builder.addCase(addNewAd.fulfilled, (state, action) => {
-      state.status = 'success';
+      state.adFormStatus = 'success';
       state.ads.push(action.payload.newAd)
     });
     builder.addCase(addNewAd.rejected, (state, action) => {
-      state.status = 'failed';
+      state.adFormStatus = 'failed';
       state.error = action.error.message;
     });
 
     // updateAd
     builder.addCase(updateAd.pending, (state) => {
-      state.status = 'pending';
+      state.adFormStatus = 'pending';
       state.error = null; // reset error status in case of previous failure
     });
     builder.addCase(updateAd.fulfilled, (state, action) => {
-      state.status = 'success';
+      state.adFormStatus = 'success';
       // Find the index of the ad in the state
       const index = state.ads.findIndex(ad => ad.id === action.payload.adToUpdate.id);
       if (index !== -1) {
@@ -144,7 +155,7 @@ export const adsSlice = createSlice({
       }
     });
     builder.addCase(updateAd.rejected, (state, action) => {
-      state.status = 'failed';
+      state.adFormStatus = 'failed';
       state.error = action.error.message;
     });
 
@@ -169,5 +180,5 @@ export const adsSlice = createSlice({
   }
 })
 
-
+export const { resetNewAdStatus, setSearchPhrase } = adsSlice.actions;
 export default adsSlice.reducer
