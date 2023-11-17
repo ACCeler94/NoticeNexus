@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
           req.session.user.id = user.id;
           req.session.user.login = user.login;
 
-          res.status(200).json({ message: 'Login successful' })
+          res.status(200).json({ message: 'Login successful', id: user.id })
         } else {
           res.status(400).json({ message: 'Login or password is incorrect!' })
         }

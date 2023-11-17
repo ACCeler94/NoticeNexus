@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { logIn } from './components/features/Users/usersSlice';
 import Logout from './components/pages/Logout/Logout';
 import Delete from './components/pages/Delete/Delete';
+import AdForm from './components/features/AdForm/AdForm';
 
 function App() {
   const dispatch = useDispatch();
@@ -35,7 +36,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/ads/:id' element={<SingleAd />} />
+        <Route path='/ads/:id/edit' element={<AdForm />} />
         <Route path='/ads/:id/delete' element={<Delete />} />
+        <Route path='/ads/new' element={<AdForm />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/logout' element={<Logout />} />

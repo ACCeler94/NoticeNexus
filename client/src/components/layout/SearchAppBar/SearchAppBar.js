@@ -87,7 +87,7 @@ export default function SearchAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            {user && <MenuItem onClick={handleClose}><Link to='/add'>New Ad</Link></MenuItem>}
+            {user && <MenuItem onClick={handleClose}><Link to='/ads/new'>New Ad</Link></MenuItem>}
             {user && <MenuItem onClick={handleClose}><Link to='/logout' >Logout</Link></MenuItem>}
             {!user && <MenuItem onClick={handleClose}><Link to='/login'>Log In</Link></MenuItem>}
           </Menu>

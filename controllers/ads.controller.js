@@ -124,11 +124,14 @@ exports.updateAd = async (req, res) => {
 exports.deleteAd = async (req, res) => {
   try {
     const adToDelete = await Ad.findById(req.params.id);
-
+    const user = req.user;
     if (adToDelete) {
-
-      // server check if user is the author
-      if (seller !== adToDelete.seller) {
+      if (user) {
+        // server check if user is the author
+        if (user.login !== adToDelete.seller) {
+          return res.status(401).json({ message: 'User not authorized!' })
+        }
+      } else {
         return res.status(401).json({ message: 'User not authorized!' })
       }
 
