@@ -61,7 +61,7 @@ exports.login = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  res.send(req.session.user.login);
+  res.send(req.session.user);
 }
 
 exports.logout = async (req, res) => {
