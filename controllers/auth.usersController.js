@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
         return res.status(409).send({ message: 'User with this login already exists.' })
       }
       const user = await User.create({ login, password: await bcrypt.hash(password, 10), phoneNumber, avatar: req.file.filename });
-      res.status(201).json('Created user' + user.login + ' id =' + user.id)
+      res.status(201).json('Created user' + user.login + ' id =' + user._id)
 
     } else {
       deleteImage(req.file.filename); // delete image if validation fails
@@ -46,10 +46,10 @@ exports.login = async (req, res) => {
       } else {
         if (bcrypt.compareSync(password, user.password)) {
           req.session.user = {}; // save user session
-          req.session.user.id = user.id;
+          req.session.user.id = user._id;
           req.session.user.login = user.login;
 
-          res.status(200).json({ message: 'Login successful', id: user.id })
+          res.status(200).json({ message: 'Login successful', id: user._id })
         } else {
           res.status(400).json({ message: 'Login or password is incorrect!' })
         }
