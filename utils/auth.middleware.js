@@ -1,23 +1,31 @@
 const Session = require('../models/Session.model');
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
 
   if (process.env.NODE_ENV !== "production") {
-    Session.findOne().then((session, err) => {
-      if (!session)
-        return res.status(401).send({ message: 'You are not authorized' });
-      if (err)
-        return res.status(401).send({ message: 'You are not authorized' });
-      else {
-        const sessionData = JSON.parse(session.session);
-        const user = {
-          id: sessionData.user.id,
-          login: sessionData.user.login,
-        }
 
-        req.session.user = user;
-        return next();
+    try {
+
+      // find last session record in db
+      const sessionRecord = await Session.findOne({});
+
+      // if session is not found
+      // return 401 status and message
+      if (!sessionRecord)
+        return res.status(401).send({ message: 'You are not authorized' });
+
+      // if session is found, parse it and set user in req.session
+      const sessionData = JSON.parse(sessionRecord.session);
+      req.session.user = {
+        id: sessionData.user.id,
+        login: sessionData.user.login,
       }
-    })
+
+      next();
+    }
+    catch (err) {
+      return res.status(401).send({ message: 'You are not authorized' });
+    }
+
   }
   else {
     if (req.session.user) {
