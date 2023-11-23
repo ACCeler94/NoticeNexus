@@ -48,10 +48,8 @@ export const addNewAd = createAsyncThunk(
 export const updateAd = createAsyncThunk(
   'ads/updateAd',
   async ({ id, newAdData }) => {
+    console.log('id from thunk is: ', id)
     const response = await adsAPI.updateAd(id, newAdData);
-    if (response.status === 401) {
-      throw new Error('User not authorized!');
-    }
     return response.data;
   }
 );

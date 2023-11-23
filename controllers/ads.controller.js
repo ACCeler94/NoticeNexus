@@ -79,8 +79,9 @@ exports.updateAd = async (req, res) => {
     if (adToUpdate) {
 
       // server check if user is the author
-      if (seller !== adToUpdate.seller) {
-        return res.status(401).json({ message: 'User not authorized!' })
+      if (seller !== adToUpdate.seller.toString()) {
+        console.log(`seller: ${seller}, adSeller: ${adToUpdate.seller}`)
+        return res.status(402).json({ message: 'User not authorized!' })
       }
 
       if (req.file) { // check if ad update includes new image

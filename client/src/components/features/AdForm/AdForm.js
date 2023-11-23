@@ -23,8 +23,7 @@ const AdForm = () => {
 
   const { id } = params;
 
-
-  // if id exists then it means editing existing ad => fetch ad data 
+  // if id exists then it means editing existing ad => fetch ad data
   useEffect(() => {
     if (id) {
       dispatch(fetchById(id));
@@ -46,10 +45,6 @@ const AdForm = () => {
   }, [status, navigate, dispatch]);
 
 
-  let userId
-  if (user) {
-    userId = user.id
-  }
 
   const [title, setTitle] = useState(currentAd && currentAd.title ? currentAd.title : '');
   const [desc, setDesc] = useState(currentAd && currentAd.desc ? currentAd.desc : '');
@@ -57,7 +52,16 @@ const AdForm = () => {
   const [photo, setPhoto] = useState(null); // on edit server assigns old photo if no new photo is provided
   const [price, setPrice] = useState(currentAd && currentAd.price ? currentAd.price : '');
   const [location, setLocation] = useState(currentAd && currentAd.location ? currentAd.location : '');
-  const [seller, setSeller] = useState(userId || '');
+  const [seller, setSeller] = useState('');
+
+  // update local state seller when user is loaded from the store or server
+  useEffect(() => {
+    if (user) {
+      setSeller(user.id)
+      console.log(seller)
+    }
+  }, [user, seller])
+
 
   // update local state if currentAd changes
   useEffect(() => {
@@ -85,7 +89,8 @@ const AdForm = () => {
 
     // check if id exists, if it does then dispatch updateAd if not then adNewAd
     if (id) {
-      dispatch(updateAd(newAdData))
+      dispatch(updateAd({ id: id, newAdData: newAdData }))
+      console.log(newAdData)
     } else {
       dispatch(addNewAd(newAdData))
     }
