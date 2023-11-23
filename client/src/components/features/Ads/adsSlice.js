@@ -80,6 +80,9 @@ export const adsSlice = createSlice({
     },
     setSearchPhrase: (state, action) => {
       state.searchPhrase = action.payload;
+    },
+    resetCurrentAd: (state) => {
+      state.currentAd = {};
     }
   },
   extraReducers: (builder) => {
@@ -180,5 +183,5 @@ export const adsSlice = createSlice({
   }
 })
 
-export const { resetNewAdStatus, setSearchPhrase } = adsSlice.actions;
+export const { resetNewAdStatus, setSearchPhrase, resetCurrentAd } = adsSlice.actions;
 export default adsSlice.reducer
