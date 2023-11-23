@@ -34,7 +34,7 @@ if (NODE_ENV !== 'production') {
 }
 
 app.use(session({
-  secret: 'xyz123',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: process.env.NODE_ENV === 'production',
   store: mongoStore.create({ mongoUrl: dbURI }),
