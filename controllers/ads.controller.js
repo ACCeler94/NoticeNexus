@@ -81,7 +81,7 @@ exports.updateAd = async (req, res) => {
       // server check if user is the author
       if (seller !== adToUpdate.seller.toString()) {
         console.log(`seller: ${seller}, adSeller: ${adToUpdate.seller}`)
-        return res.status(402).json({ message: 'User not authorized!' })
+        return res.status(401).json({ message: 'User not authorized!' })
       }
 
       if (req.file) { // check if ad update includes new image
@@ -122,23 +122,14 @@ exports.updateAd = async (req, res) => {
 exports.deleteAd = async (req, res) => {
   try {
     const adToDelete = await Ad.findById(req.params.id);
-    const user = req.user;
+    const user = req.session.user; // no need to check if user exist - if not then authMiddleware should throw an error
     if (adToDelete) {
-      if (user) {
-        // server check if user is the author
-        if (user.login !== adToDelete.seller) {
-          return res.status(401).json({ message: 'User not authorized!' })
-        }
-      } else {
-        return res.status(401).json({ message: 'User not authorized!' })
-      }
-
-      await Ad.deleteOne({ _id: req.params.id });
-      res.json({ message: 'OK' })
-    } else {
-      res.status(404).json('No Ad with this id was found!')
+      // server check if user is the author
+      if (user.id === adToDelete.seller._id.toString()) {
+        await Ad.deleteOne({ _id: req.params.id });
+        res.json({ message: 'OK' })
+      } else return res.status(401).json({ message: 'User not the author!' })
     }
-
   } catch (error) {
     res.status(500).json({ message: error });
   }
