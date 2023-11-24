@@ -18,6 +18,20 @@ const Delete = () => {
     dispatch(deleteById(id))
   }, [dispatch, id]);
 
+  // redirect after 1 sec on success
+  useEffect(() => {
+    if (status === 'success') {
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer); //clear the timeout if the component unmounts before the redirection happens
+      }
+    }
+  }, [status, navigate]);
+
+
 
   // handle error status
   if (error) {

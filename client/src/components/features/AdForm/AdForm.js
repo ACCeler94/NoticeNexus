@@ -46,12 +46,12 @@ const AdForm = () => {
 
 
 
-  const [title, setTitle] = useState(currentAd && currentAd.title ? currentAd.title : '');
-  const [desc, setDesc] = useState(currentAd && currentAd.desc ? currentAd.desc : '');
-  const [date, setDate] = useState(currentAd && currentAd.date ? currentAd.date : currentDate);
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [date, setDate] = useState(currentDate);
   const [photo, setPhoto] = useState(null); // on edit server assigns old photo if no new photo is provided
-  const [price, setPrice] = useState(currentAd && currentAd.price ? currentAd.price : '');
-  const [location, setLocation] = useState(currentAd && currentAd.location ? currentAd.location : '');
+  const [price, setPrice] = useState('');
+  const [location, setLocation] = useState('');
   const [seller, setSeller] = useState('');
 
   // update local state seller when user is loaded from the store or server
@@ -63,16 +63,22 @@ const AdForm = () => {
   }, [user, seller])
 
 
-  // update local state if currentAd changes
+  // update local state if currentAd exists
   useEffect(() => {
-    if (currentAd) {
+    if (currentAd && Object.keys(currentAd) !== 0) { // check if currentAd is empty
       setTitle(currentAd.title)
       setDesc(currentAd.desc)
       setDate(currentAd.date)
       setPrice(currentAd.price)
       setLocation(currentAd.location)
+    } else { // if current ad is reset after component renders - reset input fields
+      setTitle('')
+      setDesc('')
+      setDate(currentDate)
+      setPrice('')
+      setLocation('')
     }
-  }, [currentAd])
+  }, [currentAd, currentDate])
 
 
   const handleSubmit = (e) => {
