@@ -95,6 +95,7 @@ export const adsSlice = createSlice({
     builder.addCase(fetchAllAds.pending, (state) => {
       state.status = 'pending';
       state.error = null; // Reset error status in case of previous failure
+
     });
     builder.addCase(fetchAllAds.fulfilled, (state, action) => {
       state.status = 'success';

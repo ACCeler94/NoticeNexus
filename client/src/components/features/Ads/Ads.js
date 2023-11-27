@@ -5,20 +5,23 @@ import styles from './Ads.module.scss';
 import AdCard from '../AdCard/AdCard';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import { nanoid } from 'nanoid'
+
 
 
 const Ads = () => {
-  const ads = useSelector(state => state.ads.ads);
+  const ads = useSelector(state => state.ads.ads)
   const status = useSelector(state => state.ads.status);
   const error = useSelector(state => state.ads.error);
   const filteredAds = useSelector(state => state.ads.filteredAds);
   const searchPhrase = useSelector(state => state.ads.searchPhrase)
   const dispatch = useDispatch();
 
-  //[TODO - in the future change searchParams to be saved in the url and properly reset]
+
   useEffect(() => {
     dispatch(fetchAllAds())
   }, [dispatch])
+
 
   useEffect(() => {
     if (searchPhrase) {
@@ -26,7 +29,7 @@ const Ads = () => {
     }
   }, [searchPhrase, dispatch])
 
-  // Reset searchPhrase and component unmounts
+  // Reset searchPhrase when the component unmounts
   useEffect(() => {
     return () => {
       dispatch(setSearchPhrase(''));
@@ -58,7 +61,7 @@ const Ads = () => {
       <section className={styles.adsSection}>
         <ul className={styles.adsList}>
           {filteredAds.map(ad => (
-            <li key={ad._id}>
+            <li key={nanoid()}>
               <AdCard {...ad} />
             </li>
           ))}
@@ -71,7 +74,7 @@ const Ads = () => {
     <section className={styles.adsSection}>
       <ul className={styles.adsList}>
         {ads.map(ad => (
-          <li key={ad._id}>
+          <li key={nanoid()}>
             <AdCard {...ad} sx={{ margin: '0 auto' }} />
           </li>
         ))}
