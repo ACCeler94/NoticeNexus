@@ -171,11 +171,15 @@ const AdForm = () => {
             },
           }} />
 
-        <TextField id="price" label="Price" variant="outlined" sx={{ margin: '5px 0' }} value={price} onChange={e => setPrice(e.target.value)} type='number' required />
+        <TextField id="price" label="Price" variant="outlined" sx={{ margin: '5px 0' }} value={price} onChange={e => {
+          const newValue = e.target.value.replace(',', '.');
+          setPrice(newValue)
+        }}
+          type='number' required />
 
         <TextField id="location" label="Location" variant="outlined" sx={{ margin: '5px 0' }} value={location} onChange={e => setLocation(e.target.value)} required />
 
-        <TextField id="photo" variant="outlined" type="file" helperText="Select Your Avatar" sx={{ margin: '5px 0' }} onChange={e => setPhoto(e.target.files[0])} />
+        <TextField id="photo" variant="outlined" type="file" helperText="Select Your Avatar" sx={{ margin: '5px 0' }} onChange={e => setPhoto(e.target.files[0])} required={id ? false : true} />
 
         <Button type='submit' variant='contained' sx={{ maxWidth: '100px', marginTop: '30px' }}>Submit</Button>
       </form>
