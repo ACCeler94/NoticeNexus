@@ -44,11 +44,6 @@ const AdForm = () => {
       dispatch(fetchById(id));
     } else {
       dispatch(resetCurrentAd()) // if !id then it means new Ad => set current Ad and empty object to empty the form
-      setTitle('')
-      setDesc('')
-      setDate(DateTime.now().toLocaleString())
-      setPrice('')
-      setLocation('')
     }
   }, [dispatch, id])
 
@@ -73,6 +68,12 @@ const AdForm = () => {
       setDate(currentAd.date)
       setPrice(currentAd.price)
       setLocation(currentAd.location)
+    } else {
+      setTitle('')
+      setDesc('')
+      setDate(DateTime.now().toLocaleString())
+      setPrice('')
+      setLocation('')
     }
   }, [currentAd])
 
