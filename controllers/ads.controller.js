@@ -56,6 +56,8 @@ exports.newAd = async (req, res) => {
       } catch (error) {
         return res.status(500).json({ message: 'Error determining image file type.' });
       }
+    } else {
+      return res.status(400).json({ message: 'No file uploaded' });
     }
     if (title && typeof title === 'string' && desc && typeof desc === 'string' && date && typeof date === 'string' && price && typeof price === 'string' && location && typeof location === 'string' && seller && typeof seller === 'string' && req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) {
       const newAd = new Ad({ title, desc, date, photo: req.file.filename, price, location, seller });
@@ -66,7 +68,7 @@ exports.newAd = async (req, res) => {
       res.status(400).json({ message: 'Bad request, validation failed' });
     }
   } catch (error) {
-    res.status(500).json({ message: error });
+    res.status(500).json({ message: error.message });
   }
 }
 

@@ -6,29 +6,75 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useDispatch, useSelector } from 'react-redux';
 import { DateTime } from "luxon";
 import { useNavigate, useParams } from 'react-router-dom';
-import { addNewAd, fetchById, resetCurrentAd, resetNewAdStatus, updateAd } from '../Ads/adsSlice';
+import { addNewAd, fetchById, resetCurrentAd, resetError, resetNewAdStatus, setError, updateAd } from '../Ads/adsSlice';
 import { Alert } from '@mui/material';
 
 
-// [TODO] fix editing ad adding posts only for logged users
+//  fix editing ad adding posts only for logged users
 const AdForm = () => {
   const user = useSelector(state => state.users.user);
   const dispatch = useDispatch();
-  const currentDate = DateTime.now().toLocaleString();
+
   const params = useParams();
   const status = useSelector(state => state.ads.adFormStatus);
   const error = useSelector(state => state.ads.error);
   const navigate = useNavigate();
   const currentAd = useSelector(state => state.ads.currentAd);
-
   const { id } = params;
+
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const [date, setDate] = useState(DateTime.now().toLocaleString());
+  const [photo, setPhoto] = useState(null); // on edit server assigns old photo if no new photo is provided
+  const [price, setPrice] = useState('');
+  const [location, setLocation] = useState('');
+  const [seller, setSeller] = useState('');
+
+  // update local state seller when user is loaded from the store or server
+  useEffect(() => {
+    if (user) {
+      setSeller(user.id)
+    }
+  }, [user, seller])
+
 
   // if id exists then it means editing existing ad => fetch ad data
   useEffect(() => {
     if (id) {
       dispatch(fetchById(id));
-    } else dispatch(resetCurrentAd()) // if !id then it means new => set current Ad to empty object to empty the form
+    } else {
+      dispatch(resetCurrentAd()) // if !id then it means new Ad => set current Ad and empty object to empty the form
+      setTitle('')
+      setDesc('')
+      setDate(DateTime.now().toLocaleString())
+      setPrice('')
+      setLocation('')
+    }
   }, [dispatch, id])
+
+  useEffect(() => {
+    if (user && currentAd && currentAd.seller && user.id !== currentAd.seller._id.toString()) {
+      dispatch(setError({ message: 'You are not authorized to modify this Ad' }))
+    } else {
+      dispatch(resetError())
+    }
+    return () => {
+      dispatch(resetError())
+    }
+  }, [user, currentAd, dispatch])
+
+
+
+  // update local state if currentAd exists
+  useEffect(() => {
+    if (currentAd && Object.keys(currentAd).length !== 0) { // check if currentAd is an empty obj
+      setTitle(currentAd.title)
+      setDesc(currentAd.desc)
+      setDate(currentAd.date)
+      setPrice(currentAd.price)
+      setLocation(currentAd.location)
+    }
+  }, [currentAd])
 
   // redirect after 1 sec on success
   useEffect(() => {
@@ -46,39 +92,6 @@ const AdForm = () => {
 
 
 
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [date, setDate] = useState(currentDate);
-  const [photo, setPhoto] = useState(null); // on edit server assigns old photo if no new photo is provided
-  const [price, setPrice] = useState('');
-  const [location, setLocation] = useState('');
-  const [seller, setSeller] = useState('');
-
-  // update local state seller when user is loaded from the store or server
-  useEffect(() => {
-    if (user) {
-      setSeller(user.id)
-      console.log(seller)
-    }
-  }, [user, seller])
-
-
-  // update local state if currentAd exists
-  useEffect(() => {
-    if (currentAd && Object.keys(currentAd) !== 0) { // check if currentAd is empty
-      setTitle(currentAd.title)
-      setDesc(currentAd.desc)
-      setDate(currentAd.date)
-      setPrice(currentAd.price)
-      setLocation(currentAd.location)
-    } else { // if current ad is reset after component renders - reset input fields
-      setTitle('')
-      setDesc('')
-      setDate(currentDate)
-      setPrice('')
-      setLocation('')
-    }
-  }, [currentAd, currentDate])
 
 
   const handleSubmit = (e) => {
@@ -105,6 +118,7 @@ const AdForm = () => {
     setDesc('');
     setPhoto(null);
     setPrice('');
+    setDate(DateTime.now().toLocaleString())
     setLocation('');
   }
 
@@ -113,7 +127,7 @@ const AdForm = () => {
   if (error) {
     return (
       <section className='error-wrapper'>
-        <h2 className='error-msg'>{error}</h2>
+        <h2 className='error-msg'>{error.message}</h2>
         <Button variant="contained" onClick={() => navigate('/')}>Home</Button>
       </section>
     )

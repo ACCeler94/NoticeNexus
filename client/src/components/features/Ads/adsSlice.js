@@ -81,6 +81,12 @@ export const adsSlice = createSlice({
     },
     resetCurrentAd: (state) => {
       state.currentAd = {};
+    },
+    setError: (state, action) => {
+      state.error = action.payload
+    },
+    resetError: (state) => {
+      state.error = null;
     }
   },
   extraReducers: (builder) => {
@@ -138,7 +144,7 @@ export const adsSlice = createSlice({
     });
     builder.addCase(addNewAd.rejected, (state, action) => {
       state.adFormStatus = 'failed';
-      state.error = action.error.message;
+      state.error = action.error;
     });
 
     // updateAd
@@ -181,5 +187,5 @@ export const adsSlice = createSlice({
   }
 })
 
-export const { resetNewAdStatus, setSearchPhrase, resetCurrentAd } = adsSlice.actions;
+export const { resetNewAdStatus, setSearchPhrase, resetCurrentAd, setError, resetError } = adsSlice.actions;
 export default adsSlice.reducer
