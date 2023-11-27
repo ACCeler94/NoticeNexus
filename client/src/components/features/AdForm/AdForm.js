@@ -102,8 +102,8 @@ const AdForm = () => {
     newAdData.append('title', title);
     newAdData.append('desc', desc);
     newAdData.append('date', date);
-    newAdData.append('photo', photo);
-    if (photo) newAdData.append('price', price);
+    newAdData.append('price', price);
+    if (photo) newAdData.append('photo', photo);
     newAdData.append('location', location);
     newAdData.append('seller', seller)
 

@@ -66,6 +66,7 @@ const SingleAd = () => {
           </div>
           <div className={styles.adContent}>
             <p>{currentAd.desc}</p>
+            <p>Price: ${currentAd.price}</p>
           </div>
           <div className={styles.sellerWrapper}>
             <img src={`${IMAGES_URL}/${currentAd.seller.avatar}`} alt='seller avatar' />
