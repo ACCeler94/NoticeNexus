@@ -50,9 +50,9 @@ app.use('/auth', authUserRoutes); // add users routes
 app.use(express.static(path.join(__dirname, '/client/build')));
 app.use(express.static(path.join(__dirname, '/public'))); // serve files from public folder
 
-/* app.get('*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
-}); */
+});
 
 // Display when url is invalid
 app.use((req, res) => {
