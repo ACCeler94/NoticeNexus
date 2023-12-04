@@ -25,11 +25,10 @@ function App() {
     }
     fetch(`${AUTH_URL}/user`, options)
       .then((res) => {
-        res.json()
+        return res.json()
       })
       .then((userData) => {
-        if (userData)
-          dispatch(logIn(userData));
+        dispatch(logIn(userData));
       })
   }, [dispatch])
 

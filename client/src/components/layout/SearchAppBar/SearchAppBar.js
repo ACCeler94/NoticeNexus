@@ -100,6 +100,7 @@ export default function SearchAppBar() {
             {user && <Link to='/ads/new'><MenuItem onClick={handleClose}>New Ad</MenuItem></Link>}
             {user && <Link to='/logout' ><MenuItem onClick={handleClose}>Logout</MenuItem></Link>}
             {!user && <Link to='/login'><MenuItem onClick={handleClose}>Log In</MenuItem></Link>}
+            {!user && <Link to='/register'><MenuItem onClick={handleClose}>Sign up</MenuItem></Link>}
           </Menu>
           <Typography
             variant="h6"
