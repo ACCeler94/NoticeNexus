@@ -15,7 +15,7 @@ const authUserRoutes = require('./routes/auth.users.routes');
 // mongodb connection string
 const NODE_ENV = process.env.NODE_ENV;
 let dbURI = '';
-if (NODE_ENV === 'production') dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rczlaff.mongodb.net/NoticeNexus?retryWrites=true&w=majority'`;
+if (NODE_ENV === 'production') dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rczlaff.mongodb.net/NoticeNexus?retryWrites=true`;
 else if (NODE_ENV === 'test') dbURI = 'mongodb://0.0.0.0:27017/NoticeNexus';
 else dbURI = 'mongodb://0.0.0.0:27017/NoticeNexus';
 

@@ -24,9 +24,12 @@ function App() {
       credentials: 'include'
     }
     fetch(`${AUTH_URL}/user`, options)
-      .then((res) => res.json())
+      .then((res) => {
+        res.json()
+      })
       .then((userData) => {
-        dispatch(logIn(userData));
+        if (userData)
+          dispatch(logIn(userData));
       })
   }, [dispatch])
 

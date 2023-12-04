@@ -61,7 +61,11 @@ exports.login = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  res.send(req.session.user);
+  if (req.session.user) {
+    res.json(req.session.user);  // send user data as JSON
+  } else {
+    res.json(null);
+  }
 }
 
 exports.logout = async (req, res) => {
